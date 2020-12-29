@@ -87,6 +87,7 @@ yang memiliki ip DMZ (DHCP dan DNS SERVER) pada SURABAYA demi menjaga keamanan.
 iptables -A FORWARD -d 10.151.71.88/29 -i eth0 -p tcp --dport 22 -j DROP #surabaya
 ```
 ![image](https://user-images.githubusercontent.com/57068224/103280842-f6bef880-4a03-11eb-9361-05d4e39286bd.png)
+
 3. Karena tim kalian maksimal terdiri dari 3 orang, Bibah meminta kalian untuk membatasi DHCP
 dan DNS server hanya boleh menerima maksimal 3 koneksi ICMP secara bersamaan yang berasal dari
 mana saja menggunakan iptables pada masing masing server, selebihnya akan di DROP.
