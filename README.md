@@ -116,8 +116,11 @@ iptables -A INPUT -s 192.168.1.0/24 -m time --timestart 07:00 --timestop 17:00 -
 6. Bibah ingin SURABAYA disetting sehingga setiap request dari client yang mengakses DNS Server akan didistribusikan
 secara bergantian pada PROBOLINGGO port 80 dan MADIUN port 80.
 ```
-iptables -t nat -A PREROUTING -p tcp -d 10.151.71.90 -m statistic --mode nth --every 2 --packet 0 -j DNAT --to-destination 192.168.1.3:80
-iptables -t nat -A PREROUTING -p tcp -d 10.151.71.90 -j DNAT --to-destination 192.168.1.2:80
+iptables -A PREROUTING -t nat -p tcp -d 10.151.71.90 --dport 80 -m statistic --mode nth --every 2 --packet 0 -j DNAT --to-destination 192.168.0.11:80 #Probolinggo
+iptables -A PREROUTING -t nat -p tcp -d 10.151.71.90 --dport 80 -j DNAT --to-destination 192.168.0.10:80 #Madiun
+
+iptables -t nat -A POSTROUTING -p tcp -d 192.168.0.11 --dport 80 -j SNAT --to-source 10.151.71.90:80 #Probolinggo
+iptables -t nat -A POSTROUTING -p tcp -d 192.168.0.10 --dport 80 -j SNAT --to-source 10.151.71.90:80 #Madiun
 ```
 
 7. Bibah ingin agar semua paket didrop oleh firewall (dalam topologi) tercatat dalam log pada setiap
